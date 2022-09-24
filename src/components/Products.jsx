@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { Outlet, useSearchParams } from "react-router-dom";
-import { Carousel } from "flowbite-react";
-import Product from "./Product";
-import { products } from "../../data";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const Products = () => {
+import { products } from "../../data";
+import Product from "./Product";
+
+const Products = ({}) => {
   const [filter, setFilter] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -23,10 +23,9 @@ const Products = () => {
         : products
     );
   }, [filter]);
-
   return (
-    <>
-      <div className="flex justify-center">
+    <div>
+      <div className="flex justify-center mb-8">
         <button onClick={() => setFilter(null)} className={getClass(null)}>
           All
         </button>
@@ -40,12 +39,12 @@ const Products = () => {
           Drinks
         </button>
       </div>
-      <Carousel className="h-full">
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:gap-8">
         {filteredProducts.map((product) => (
-          <Product key={product.id} product={product} />
+          <Product key={product.id} {...product} />
         ))}
-      </Carousel>
-    </>
+      </div>
+    </div>
   );
 };
 

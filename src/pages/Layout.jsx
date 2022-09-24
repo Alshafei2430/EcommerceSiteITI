@@ -5,7 +5,7 @@ import Header from "../components/Header";
 
 const Layout = ({ enableDarkMode }) => {
   return (
-    <div className="flex flex-col h-screen dark:bg-gray-900 dark:text-gray-300 font-mono">
+    <div className="flex flex-col dark:bg-gray-900 dark:text-gray-300 font-mono">
       <Header enableDarkMode={enableDarkMode} />
       <div className="flex-1 container mx-auto">
         <Outlet />
