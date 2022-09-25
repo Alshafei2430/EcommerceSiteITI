@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
 import ProductPage from "./pages/ProductPage";
+import { getAllProducts } from "./reducers/productsSlice";
 
 // Components
 
 function App() {
+  const dispatch = useDispatch();
   // State
   const [theme, setTheme] = useState("dark");
 
@@ -19,6 +22,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.className = theme;
+    dispatch(getAllProducts());
   }, [theme]);
 
   return (

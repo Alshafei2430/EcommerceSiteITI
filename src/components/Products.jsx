@@ -1,12 +1,18 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getAllProducts,
+  getProductsWithFilter,
+} from "../reducers/productsSlice";
 
-import { products } from "../../data";
 import Product from "./Product";
 
 const Products = ({}) => {
+  const dispatch = useDispatch();
+
+  const { products } = useSelector((state) => state.products);
   const [filter, setFilter] = useState(null);
-  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const getClass = (wantedFilter) => {
     if (wantedFilter === filter) {
@@ -16,32 +22,37 @@ const Products = ({}) => {
     }
   };
 
-  useEffect(() => {
-    setFilteredProducts(
-      filter
-        ? products.filter((product) => product.category === filter)
-        : products
-    );
-  }, [filter]);
+  const handleClick = (filter) => {
+    if (filter) {
+      dispatch(getProductsWithFilter(filter));
+    } else {
+      dispatch(getAllProducts());
+    }
+    setFilter(filter);
+  };
+
   return (
     <div>
       <div className="flex justify-center mb-8">
-        <button onClick={() => setFilter(null)} className={getClass(null)}>
+        <button onClick={() => handleClick(null)} className={getClass(null)}>
           All
         </button>
-        <button onClick={() => setFilter("food")} className={getClass("food")}>
+        <button
+          onClick={() => handleClick("food")}
+          className={getClass("food")}
+        >
           Food
         </button>
         <button
-          onClick={() => setFilter("drinks")}
+          onClick={() => handleClick("drinks")}
           className={getClass("drinks")}
         >
           Drinks
         </button>
       </div>
       <div className="columns-1 sm:columns-2 md:columns-3 lg:gap-8">
-        {filteredProducts.map((product) => (
-          <Product key={product.id} {...product} />
+        {products.map((product, i) => (
+          <Product key={i} {...product} />
         ))}
       </div>
     </div>
